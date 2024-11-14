@@ -21,10 +21,10 @@ export const EducationsForm = () => {
   const showBulletPoints = useAppSelector(selectShowBulletPoints(form));
 
   return (
-    <Form form={form} addButtonText="Add School">
+    <Form form={form} addButtonText="添加学校">
       {educations.map(({ school, degree, gpa, date, descriptions }, idx) => {
         const handleEducationChange = (
-          ...[
+         ...[
             field,
             value,
           ]: CreateHandleChangeArgsWithDescriptions<ResumeEducation>
@@ -36,8 +36,8 @@ export const EducationsForm = () => {
           dispatch(changeShowBulletPoints({ field: form, value }));
         };
 
-        const showMoveUp = idx !== 0;
-        const showMoveDown = idx !== educations.length - 1;
+        const showMoveUp = idx!== 0;
+        const showMoveDown = idx!== educations.length - 1;
 
         return (
           <FormSection
@@ -47,29 +47,29 @@ export const EducationsForm = () => {
             showMoveUp={showMoveUp}
             showMoveDown={showMoveDown}
             showDelete={showDelete}
-            deleteButtonTooltipText="Delete school"
+            deleteButtonTooltipText="删除学校"
           >
             <Input
-              label="School"
+              label="学校"
               labelClassName="col-span-4"
               name="school"
-              placeholder="Cornell University"
+              placeholder="康奈尔大学"
               value={school}
               onChange={handleEducationChange}
             />
             <Input
-              label="Date"
+              label="日期"
               labelClassName="col-span-2"
               name="date"
-              placeholder="May 2018"
+              placeholder="2018年5月"
               value={date}
               onChange={handleEducationChange}
             />
             <Input
-              label="Degree & Major"
+              label="学位和专业"
               labelClassName="col-span-4"
               name="degree"
-              placeholder="Bachelor of Science in Computer Engineering"
+              placeholder="计算机工程理学学士"
               value={degree}
               onChange={handleEducationChange}
             />
@@ -83,10 +83,10 @@ export const EducationsForm = () => {
             />
             <div className="relative col-span-full">
               <BulletListTextarea
-                label="Additional Information (Optional)"
+                label="附加信息（可选）"
                 labelClassName="col-span-full"
                 name="descriptions"
-                placeholder="Free paragraph space to list out additional activities, courses, awards etc"
+                placeholder="自由段落空间，列出其他活动、课程、奖项等"
                 value={descriptions}
                 onChange={handleEducationChange}
                 showBulletPoints={showBulletPoints}

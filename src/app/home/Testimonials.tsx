@@ -11,23 +11,23 @@ const TESTIMONIALS = [
   {
     src: testimonialSpiegelSrc,
     quote:
-      "Students often make silly mistakes on their resume by using inconsistent bullet points or font sizes. OpenResume’s auto format feature is a great help to ensure consistent format.",
-    name: "Ms. Spiegel",
-    title: "Educator",
+      "学生们在简历中经常会犯一些愚蠢的错误，比如使用不一致的项目符号或字体大小。OpenResume 的自动格式化功能非常有助于确保格式的一致性。",
+    name: "Spiegel 女士",
+    title: "教育工作者",
   },
   {
     src: testimonialSantiSrc,
     quote:
-      "I used OpenResume during my last job search and was invited to interview at top tech companies such as Google and Amazon thanks to its slick yet professional resume design.",
+      "我在上一次求职过程中使用了 OpenResume，并因此获得了谷歌和亚马逊等顶级科技公司的面试邀请，这要归功于其时尚而专业的简历设计。",
     name: "Santi",
-    title: "Software Engineer",
+    title: "软件工程师",
   },
   {
     src: testimonialVivianSrc,
     quote:
-      "Creating a professional resume on OpenResume is so smooth and easy! It saves me so much time and headache to not deal with google doc template.",
+      "在 OpenResume 上创建一份专业的简历非常流畅和容易！它为我节省了大量的时间和精力，让我不必再为处理谷歌文档模板而烦恼。",
     name: "Vivian",
-    title: "College Student",
+    title: "大学生",
   },
 ];
 
@@ -58,16 +58,16 @@ export const Testimonials = ({ children }: { children?: React.ReactNode }) => {
   const { isLg } = useTailwindBreakpoints();
   useEffect(() => {
     setTestimonialsClassNames(
-      isLg ? LG_TESTIMONIALS_CLASSNAMES : SM_TESTIMONIALS_CLASSNAMES
+      isLg? LG_TESTIMONIALS_CLASSNAMES : SM_TESTIMONIALS_CLASSNAMES
     );
   }, [isLg]);
 
   return (
     <section className="mx-auto -mt-2 px-8 pb-24">
       <h2 className="mb-8 text-center text-3xl font-bold">
-        People{" "}
+        人们{" "}
         <Image src={heartSrc} alt="love" className="-mt-1 inline-block w-7" />{" "}
-        OpenResume
+        喜爱 OpenResume
       </h2>
       <div className="mx-auto mt-10 h-[235px] max-w-lg lg:h-[400px] lg:pt-28">
         <div className="relative lg:ml-[-50px]">

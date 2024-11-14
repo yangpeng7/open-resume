@@ -103,42 +103,22 @@ export const ResumeParserAlgorithmArticle = ({
 
   return (
     <article className="mt-10">
-      <Heading className="text-primary !mt-0 border-t-2 pt-8">
-        Resume Parser Algorithm Deep Dive
+      <Heading className="text-primary!mt-0 border-t-2 pt-8">
+        简历解析算法深度解析
       </Heading>
       <Paragraph smallMarginTop={true}>
-        For the technical curious, this section will dive into the OpenResume
-        parser algorithm and walks through the 4 steps on how it works. (Note
-        that the algorithm is designed to parse single column resume in English
-        language)
+        对于技术好奇者，本节将深入探讨 OpenResume 解析算法，并逐步介绍其工作原理的 4 个步骤。（请注意，该算法旨在解析英文单栏简历）
       </Paragraph>
-      {/* Step 1. Read the text items from a PDF file */}
-      <Heading level={2}>Step 1. Read the text items from a PDF file</Heading>
+      {/* 步骤 1. 从 PDF 文件读取文本项 */}
+      <Heading level={2}>步骤 1. 从 PDF 文件读取文本项</Heading>
       <Paragraph smallMarginTop={true}>
-        A PDF file is a standardized file format defined by the{" "}
-        <Link href="https://www.iso.org/standard/51502.html">
-          ISO 32000 specification
-        </Link>
-        . When you open up a PDF file using a text editor, you'll notice that
-        the raw content looks encoded and is difficult to read. To display it in
-        a readable format, you would need a PDF reader to decode and view the
-        file. Similarly, the resume parser first needs to decode the PDF file in
-        order to extract its text content.
+        PDF 文件是由 <Link href="https://www.iso.org/standard/51502.html">ISO 32000 规范</Link> 定义的标准化文件格式。当你使用文本编辑器打开 PDF 文件时，你会注意到原始内容看起来是编码的，难以阅读。要以可读的格式显示它，你需要一个 PDF 阅读器来解码并查看文件。同样，简历解析器首先需要解码 PDF 文件，以便提取其文本内容。
       </Paragraph>
       <Paragraph>
-        While it is possible to write a custom PDF reader function following the
-        ISO 32000 specification, it is much simpler to leverage an existing
-        library. In this case, the resume parser uses Mozilla's open source{" "}
-        <Link href="https://github.com/mozilla/pdf.js">pdf.js</Link> library to
-        first extract all the text items in the file.
+        虽然可以根据 ISO 32000 规范编写自定义 PDF 读取器函数，但利用现有的库会简单得多。在这种情况下，简历解析器使用 Mozilla 的开源 <Link href="https://github.com/mozilla/pdf.js">pdf.js</Link> 库首先提取文件中的所有文本项。
       </Paragraph>
       <Paragraph>
-        The table below lists {textItems.length} text items that are extracted
-        from the resume PDF added. A text item contains the text content and
-        also some metadata about the content, e.g. its x, y positions in the
-        document, whether the font is bolded, or whether it starts a new line.
-        (Note that x,y position is relative to the bottom left corner of the
-        page, which is the origin 0,0)
+        下表列出了从添加的简历 PDF 中提取的 {textItems.length} 个文本项。文本项包含文本内容以及一些关于内容的元数据，例如它在文档中的 x、y 位置，字体是否加粗，或者它是否开始新的一行。（请注意，x、y 位置是相对于页面左下角的原点 0,0）
       </Paragraph>
       <div className="mt-4 max-h-72 overflow-y-scroll border scrollbar scrollbar-track-gray-100 scrollbar-thumb-gray-200 scrollbar-w-3">
         <Table
@@ -147,210 +127,127 @@ export const ResumeParserAlgorithmArticle = ({
           tdClassNames={["", "", "md:whitespace-nowrap"]}
         />
       </div>
-      {/* Step 2. Group text items into lines */}
-      <Heading level={2}>Step 2. Group text items into lines</Heading>
+      {/* 步骤 2. 将文本项分组为行 */}
+      <Heading level={2}>步骤 2. 将文本项分组为行</Heading>
       <Paragraph smallMarginTop={true}>
-        The extracted text items aren't ready to use yet and have 2 main issues:
+        提取的文本项还不能直接使用，存在两个主要问题：
       </Paragraph>
       <Paragraph>
         <span className="mt-3 block font-semibold">
-          Issue 1: They have some unwanted noises.
+          问题 1：它们包含一些不需要的噪声。
         </span>
-        Some single text items can get broken into multiple ones, as you might
-        observe on the table above, e.g. a phone number "(123) 456-7890" might
-        be broken into 3 text items "(123) 456", "-" and "7890".
+        一些单个文本项可能会被分成多个，如你在上面的表格中可能观察到的，例如电话号码 "(123) 456-7890" 可能会被分成 3 个文本项 "(123) 456"、"-" 和 "7890"。
       </Paragraph>
       <Paragraph smallMarginTop={true}>
-        <span className="font-semibold">Solution:</span> To tackle this issue,
-        the resume parser connects adjacent text items into one text item if
-        their distance is smaller than the average typical character width,
-        where
+        <span className="font-semibold">解决方案：</span> 为了解决这个问题，简历解析器会将相邻的文本项连接成一个文本项，如果它们之间的距离小于平均典型字符宽度，其中
         <span
           dangerouslySetInnerHTML={{
             __html: `<math display="block">
                         <mrow>
-                            <mn>Distance </mn>
+                            <mn>距离 </mn>
                             <mo>=</mo>
-                            <mn>RightTextItemX₁</mn>
+                            <mn>右文本项X₁</mn>
                             <mo>-</mo>
-                            <mn>LeftTextItemX₂</mn>
+                            <mn>左文本项X₂</mn>
                         </mrow>
                     </math>`,
           }}
           className="my-2 block text-left text-base"
         />
-        The average typical character width is calculated by dividing the sum of
-        all text items' widths by the total number characters of the text items
-        (Bolded texts and new line elements are excluded to not skew the
-        results).
+        平均典型字符宽度是通过将所有文本项的宽度总和除以文本项的总字符数来计算的（粗体文本和新行元素被排除在外，以避免结果失真）。
       </Paragraph>
       <Paragraph>
         <span className="mt-3 block font-semibold">
-          Issue 2: They lack contexts and associations.
+          问题 2：它们缺乏上下文和关联。
         </span>
-        When we read a resume, we scan a resume line by line. Our brains can
-        process each section via visual cues such as texts' boldness and
-        proximity, where we can quickly associate texts closer together to be a
-        related group. The extracted text items however currently don't have
-        those contexts/associations and are just disjointed elements.
+        当我们阅读简历时，我们逐行扫描简历。我们的大脑可以通过视觉线索（如文本的粗体和接近度）来处理每个部分，我们可以快速地将更接近的文本关联起来，形成一个相关的组。然而，提取的文本项目前没有这些上下文/关联，只是不相关的元素。
       </Paragraph>
       <Paragraph smallMarginTop={true}>
-        <span className="font-semibold">Solution:</span> To tackle this issue,
-        the resume parser reconstructs those contexts and associations similar
-        to how our brain would read and process the resume. It first groups text
-        items into lines since we read text line by line. It then groups lines
-        into sections, which will be discussed in the next step.
+        <span className="font-semibold">解决方案：</span> 为了解决这个问题，简历解析器重建了这些上下文和关联，类似于我们的大脑如何阅读和处理简历。它首先将文本项分组为行，因为我们逐行阅读文本。然后，它将行分组为部分，这将在下一个步骤中讨论。
       </Paragraph>
       <Paragraph>
-        At the end of step 2, the resume parser extracts {lines.length} lines
-        from the resume PDF added, as shown in the table below. The result is
-        much more readable when displayed in lines. (Some lines might have
-        multiple text items, which are separated by a blue vertical divider{" "}
-        <span className="select-none font-extrabold text-sky-400">
-          &nbsp;{"|"}&nbsp;
-        </span>
-        )
+        在步骤 2 结束时，简历解析器从添加的简历 PDF 中提取了 {lines.length} 行，如下表所示。当以行的形式显示时，结果更加易读。（有些行可能有多个文本项，它们之间用蓝色垂直分隔符 <span className="select-none font-extrabold text-sky-400"> &nbsp;{"|"}&nbsp; </span> 分隔）
       </Paragraph>
       <div className="mt-4 max-h-96 overflow-y-scroll border scrollbar scrollbar-track-gray-100 scrollbar-thumb-gray-200 scrollbar-w-3">
         <Table table={step2LinesTable} className="!border-none" />
       </div>
-      {/* Step 3. Group lines into sections */}
-      <Heading level={2}>Step 3. Group lines into sections</Heading>
+      {/* 步骤 3. 将行分组为部分 */}
+      <Heading level={2}>步骤 3. 将行分组为部分</Heading>
       <Paragraph smallMarginTop={true}>
-        At step 2, the resume parser starts building contexts and associations
-        to text items by first grouping them into lines. Step 3 continues the
-        process to build additional associations by grouping lines into
-        sections.
+        在步骤 2 中，简历解析器通过将文本项分组为行来开始构建上下文和关联。步骤 3 继续这个过程，通过将行分组为部分来构建额外的关联。
       </Paragraph>
       <Paragraph>
-        Note that every section (except the profile section) starts with a
-        section title that takes up the entire line. This is a common pattern
-        not just in resumes but also in books and blogs. The resume parser uses
-        this pattern to group lines into the closest section title above these
-        lines.
+        请注意，每个部分（除了个人资料部分）都以占据整行的部分标题开始。这不仅在简历中，而且在书籍和博客中都是一种常见的模式。简历解析器使用这种模式将行分组到这些行上方最接近的部分标题。
       </Paragraph>
       <Paragraph>
-        The resume parser applies some heuristics to detect a section title. The
-        main heuristic to determine a section title is to check if it fulfills
-        all 3 following conditions: <br />
-        1. It is the only text item in the line <br />
-        2. It is <span className="font-bold">bolded</span> <br />
-        3. Its letters are all UPPERCASE
-        <br />
+        简历解析器应用一些启发式方法来检测部分标题。确定部分标题的主要启发式方法是检查它是否满足以下所有 3 个条件：<br />
+        1. 它是行中唯一的文本项<br />
+        2. 它是 <span className="font-bold">加粗的</span><br />
+        3. 它的字母都是大写的<br />
       </Paragraph>
       <Paragraph>
-        In simple words, if a text item is double emphasized to be both bolded
-        and uppercase, it is most likely a section title in a resume. This is
-        generally true for a well formatted resume. There can be exceptions, but
-        it is likely not a good use of bolded and uppercase in those cases.
+        简单来说，如果一个文本项被双重强调为既加粗又大写，那么它很可能是简历中的部分标题。对于格式良好的简历来说，这通常是正确的。可能会有例外，但在这些情况下，使用加粗和大写可能不是一个好的用法。
       </Paragraph>
       <Paragraph>
-        The resume parser also has a fallback heuristic if the main heuristic
-        doesn't apply. The fallback heuristic mainly performs a keyword matching
-        against a list of common resume section title keywords.
+        简历解析器还有一个备用启发式方法，如果主要启发式方法不适用。备用启发式方法主要是对一组常见的简历部分标题关键词进行关键词匹配。
       </Paragraph>
       <Paragraph>
-        At the end of step 3, the resume parser identifies the sections from the
-        resume and groups those lines with the associated section title, as
-        shown in the table below. Note that{" "}
-        <span className="font-bold">the section titles are bolded</span> and{" "}
-        <span className="bg-teal-50">
-          the lines associated with the section are highlighted with the same
-          colors
-        </span>
-        .
+        在步骤 3 结束时，简历解析器从简历中识别出部分，并将这些行与相关的部分标题分组，如下表所示。请注意，<span className="font-bold">部分标题是加粗的</span>，并且 <span className="bg-teal-50">与部分相关的行用相同的颜色突出显示</span>。
       </Paragraph>
       <Step3SectionsTable sections={sections} />
-      {/* Step 4. Extract resume from sections */}
-      <Heading level={2}>Step 4. Extract resume from sections</Heading>
+      {/* 步骤 4. 从部分中提取简历 */}
+      <Heading level={2}>步骤 4. 从部分中提取简历</Heading>
       <Paragraph smallMarginTop={true}>
-        Step 4 is the last step of the resume parsing process and is also the
-        core of the resume parser, where it extracts resume information from the
-        sections.
+        步骤 4 是简历解析过程的最后一步，也是简历解析器的核心，它从部分中提取简历信息。
       </Paragraph>
-      <Heading level={3}>Feature Scoring System</Heading>
+      <Heading level={3}>特征评分系统</Heading>
       <Paragraph smallMarginTop={true}>
-        The gist of the extraction engine is a feature scoring system. Each
-        resume attribute to be extracted has a custom feature sets, where each
-        feature set consists of a feature matching function and a feature
-        matching score if matched (feature matching score can be a positive or
-        negative number). To compute the final feature score of a text item for
-        a particular resume attribute, it would run the text item through all
-        its feature sets and sum up the matching feature scores. This process is
-        carried out for all text items within the section, and the text item
-        with the highest computed feature score is identified as the extracted
-        resume attribute.
+        提取引擎的核心是一个特征评分系统。每个待提取的简历属性都有一个自定义的特征集，每个特征集由一个特征匹配函数和一个匹配得分组成（特征匹配得分可以是正数或负数）。为了计算一个文本项对于特定简历属性的最终特征得分，它会运行该文本项通过其所有的特征集，并将匹配的特征得分相加。这个过程在该部分的所有文本项上进行，得分最高的文本项被确定为提取的简历属性。
       </Paragraph>
       <Paragraph>
-        As a demonstration, the table below shows 3 resume attributes in the
-        profile section of the resume PDF added.
+        作为演示，下表显示了添加的简历 PDF 中的个人资料部分的 3 个简历属性。
       </Paragraph>
       <Table table={step4ProfileFeatureScoresTable} className="mt-4" />
       {(profileScores.name.find((item) => item.text === profile.name)?.score ||
         0) > 0 && (
         <Paragraph smallMarginTop={true}>
-          In the resume PDF added, the resume attribute name is likely to be "
-          {profile.name}" since its feature score is{" "}
+          在添加的简历 PDF 中，简历属性名称很可能是 "
+          {profile.name}"，因为它的特征得分是{" "}
           {profileScores.name.find((item) => item.text === profile.name)?.score}
-          , which is the highest feature score out of all text items in the
-          profile section. (Some text items' feature scores can be negative,
-          indicating they are very unlikely to be the targeted attribute)
+          ，这是个人资料部分所有文本项中的最高特征得分。（一些文本项的特征得分可能为负，表明它们不太可能是目标属性）
         </Paragraph>
       )}
-      <Heading level={3}>Feature Sets</Heading>
+      <Heading level={3}>特征集</Heading>
       <Paragraph smallMarginTop={true}>
-        Having explained the feature scoring system, we can dive more into how
-        feature sets are constructed for a resume attribute. It follows 2
-        principles: <br />
-        1. A resume attribute's feature sets are designed relative to all other
-        resume attributes within the same section. <br />
-        2. A resume attribute's feature sets are manually crafted based on its
-        characteristics and likelihood of each characteristic.
+        在解释了特征评分系统之后，我们可以更深入地了解如何为简历属性构建特征集。它遵循 2 个原则：<br />
+        1. 简历属性的特征集是相对于同一部分中的所有其他简历属性设计的。<br />
+        2. 简历属性的特征集是根据其特征和每个特征的可能性手动制作的。
       </Paragraph>
       <Paragraph>
-        The table below lists some of the feature sets for the resume attribute
-        name. It contains feature function that matches the name attribute with
-        positive feature score and also feature function that only matches other
-        resume attributes in the section with negative feature score.
+        下表列出了简历属性名称的一些特征集。它包含与名称属性匹配的正特征得分的特征函数，以及仅与该部分中的其他简历属性匹配的负特征得分的特征函数。
       </Paragraph>
       <Table
         table={step4NameFeatureSetsTable}
-        title="Name Feature Sets"
+        title="名称特征集"
         className="mt-4"
       />
-      <Heading level={3}>Core Feature Function</Heading>
+      <Heading level={3}>核心特征函数</Heading>
       <Paragraph smallMarginTop={true}>
-        Each resume attribute has multiple feature sets. They can be found in
-        the source code under the extract-resume-from-sections folder and we
-        won't list them all out here. Each resume attribute usually has a core
-        feature function that greatly identifies them, so we will list out the
-        core feature function below.
+        每个简历属性都有多个特征集。它们可以在源代码中的 extract-resume-from-sections 文件夹下找到，我们不会在这里全部列出。每个简历属性通常都有一个核心特征函数，可以极大地识别它们，因此我们将在下面列出核心特征函数。
       </Paragraph>
       <Table table={step4CoreFeatureFunctionTable} className="mt-4" />
-      <Heading level={3}>Special Case: Subsections</Heading>
+      <Heading level={3}>特殊情况：子部分</Heading>
       <Paragraph smallMarginTop={true}>
-        The last thing that is worth mentioning is subsections. For profile
-        section, we can directly pass all the text items to the feature scoring
-        systems. But for other sections, such as education and work experience,
-        we have to first divide the section into subsections since there can be
-        multiple schools or work experiences in the section. The feature scoring
-        system then process each subsection to retrieve each's resume attributes
-        and append the results.
+        最后值得一提的是子部分。对于个人资料部分，我们可以直接将所有文本项传递给特征评分系统。但是对于其他部分，如教育和工作经验，我们必须首先将该部分划分为子部分，因为该部分可能包含多个学校或工作经验。然后，特征评分系统处理每个子部分，以检索每个子部分的简历属性并附加结果。
       </Paragraph>
       <Paragraph smallMarginTop={true}>
-        The resume parser applies some heuristics to detect a subsection. The
-        main heuristic to determine a subsection is to check if the vertical
-        line gap between 2 lines is larger than the typical line gap * 1.4,
-        since a well formatted resume usually creates a new empty line break
-        before adding the next subsection. There is also a fallback heuristic if
-        the main heuristic doesn't apply to check if the text item is bolded.
+        简历解析器应用一些启发式方法来检测子部分。确定子部分的主要启发式方法是检查 2 行之间的垂直行间距是否大于典型行间距 * 1.4，因为格式良好的简历通常会在添加下一个子部分之前创建一个新的空行。如果主要启发式方法不适用，还有一个备用启发式方法来检查文本项是否加粗。
       </Paragraph>
       <Paragraph>
-        And that is everything about the OpenResume parser algorithm :)
+        这就是关于 OpenResume 解析器算法的全部内容：）
       </Paragraph>
       <Paragraph>
-        Written by <Link href="https://github.com/xitanggg">Xitang</Link> on
-        June 2023
+        由 <Link href="https://github.com/xitanggg">Xitang</Link> 于 2023 年 6 月撰写
       </Paragraph>
     </article>
   );

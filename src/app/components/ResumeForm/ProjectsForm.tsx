@@ -14,18 +14,18 @@ export const ProjectsForm = () => {
   const showDelete = projects.length > 1;
 
   return (
-    <Form form="projects" addButtonText="Add Project">
+    <Form form="projects" addButtonText="添加项目">
       {projects.map(({ project, date, descriptions }, idx) => {
         const handleProjectChange = (
-          ...[
+         ...[
             field,
             value,
           ]: CreateHandleChangeArgsWithDescriptions<ResumeProject>
         ) => {
           dispatch(changeProjects({ idx, field, value } as any));
         };
-        const showMoveUp = idx !== 0;
-        const showMoveDown = idx !== projects.length - 1;
+        const showMoveUp = idx!== 0;
+        const showMoveDown = idx!== projects.length - 1;
 
         return (
           <FormSection
@@ -35,11 +35,11 @@ export const ProjectsForm = () => {
             showMoveUp={showMoveUp}
             showMoveDown={showMoveDown}
             showDelete={showDelete}
-            deleteButtonTooltipText={"Delete project"}
+            deleteButtonTooltipText={"删除项目"}
           >
             <Input
               name="project"
-              label="Project Name"
+              label="项目名称"
               placeholder="OpenResume"
               value={project}
               onChange={handleProjectChange}
@@ -47,16 +47,16 @@ export const ProjectsForm = () => {
             />
             <Input
               name="date"
-              label="Date"
-              placeholder="Winter 2022"
+              label="日期"
+              placeholder="2022 年冬季"
               value={date}
               onChange={handleProjectChange}
               labelClassName="col-span-2"
             />
             <BulletListTextarea
               name="descriptions"
-              label="Description"
-              placeholder="Bullet points"
+              label="描述"
+              placeholder="要点"
               value={descriptions}
               onChange={handleProjectChange}
               labelClassName="col-span-full"

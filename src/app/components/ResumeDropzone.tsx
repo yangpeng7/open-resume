@@ -75,7 +75,7 @@ export const ResumeDropzone = ({
     const resume = await parseResumeFromPdf(file.fileUrl);
     const settings = deepClone(initialSettings);
 
-    // Set formToShow settings based on uploaded resume if users have used the app before
+    // 如果用户之前使用过该应用，则根据上传的简历设置 formToShow 设置
     if (getHasUsedAppBefore()) {
       const sections = Object.keys(settings.formToShow) as ShowForm[];
       const sectionToFormToShow: Record<ShowForm, boolean> = {
@@ -99,7 +99,7 @@ export const ResumeDropzone = ({
       className={cx(
         "flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 ",
         isHoveredOnDropzone && "border-sky-400",
-        playgroundView ? "pb-6 pt-4" : "py-12",
+        playgroundView? "pb-6 pt-4" : "py-12",
         className
       )}
       onDragOver={(event) => {
@@ -112,7 +112,7 @@ export const ResumeDropzone = ({
       <div
         className={cx(
           "text-center",
-          playgroundView ? "space-y-2" : "space-y-3"
+          playgroundView? "space-y-2" : "space-y-3"
         )}
       >
         {!playgroundView && (
@@ -124,19 +124,19 @@ export const ResumeDropzone = ({
             priority
           />
         )}
-        {!hasFile ? (
+        {!hasFile? (
           <>
             <p
               className={cx(
                 "pt-3 text-gray-700",
-                !playgroundView && "text-lg font-semibold"
+               !playgroundView && "text-lg font-semibold"
               )}
             >
-              Browse a pdf file or drop it here
+              浏览 PDF 文件或拖放文件到此区域
             </p>
             <p className="flex text-sm text-gray-500">
               <LockClosedIcon className="mr-1 mt-1 h-3 w-3 text-gray-400" />
-              File data is used locally and never leaves your browser
+              文件数据仅在本地使用，不会离开您的浏览器
             </p>
           </>
         ) : (
@@ -155,15 +155,15 @@ export const ResumeDropzone = ({
           </div>
         )}
         <div className="pt-4">
-          {!hasFile ? (
+          {!hasFile? (
             <>
               <label
                 className={cx(
                   "within-outline-theme-purple cursor-pointer rounded-full px-6 pb-2.5 pt-2 font-semibold shadow-sm",
-                  playgroundView ? "border" : "bg-primary"
+                  playgroundView? "border" : "bg-primary"
                 )}
               >
-                Browse file
+                浏览文件
                 <input
                   type="file"
                   className="sr-only"
@@ -172,7 +172,7 @@ export const ResumeDropzone = ({
                 />
               </label>
               {hasNonPdfFile && (
-                <p className="mt-6 text-red-400">Only pdf file is supported</p>
+                <p className="mt-6 text-red-400">仅支持 PDF 文件</p>
               )}
             </>
           ) : (
@@ -183,12 +183,11 @@ export const ResumeDropzone = ({
                   className="btn-primary"
                   onClick={onImportClick}
                 >
-                  Import and Continue <span aria-hidden="true">→</span>
+                  导入并继续 <span aria-hidden="true">→</span>
                 </button>
               )}
-              <p className={cx(" text-gray-500", !playgroundView && "mt-6")}>
-                Note: {!playgroundView ? "Import" : "Parser"} works best on
-                single column resume
+              <p className={cx(" text-gray-500",!playgroundView && "mt-6")}>
+                注意：{!playgroundView? "导入" : "解析器"} 在单栏简历上效果最佳
               </p>
             </>
           )}

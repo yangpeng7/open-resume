@@ -27,7 +27,7 @@ const TableRow = ({
     </th>
     <td className="w-full px-3 py-2">
       {typeof value === "string"
-        ? value
+       ? value
         : value.map((x, idx) => (
             <Fragment key={idx}>
               • {x}
@@ -41,86 +41,86 @@ const TableRow = ({
 export const ResumeTable = ({ resume }: { resume: Resume }) => {
   const educations =
     resume.educations.length === 0
-      ? [deepClone(initialEducation)]
+     ? [deepClone(initialEducation)]
       : resume.educations;
   const workExperiences =
     resume.workExperiences.length === 0
-      ? [deepClone(initialWorkExperience)]
+     ? [deepClone(initialWorkExperience)]
       : resume.workExperiences;
   const skills = [...resume.skills.descriptions];
   const featuredSkills = resume.skills.featuredSkills
-    .filter((item) => item.skill.trim())
-    .map((item) => item.skill)
-    .join(", ")
-    .trim();
+   .filter((item) => item.skill.trim())
+   .map((item) => item.skill)
+   .join(", ")
+   .trim();
   if (featuredSkills) {
     skills.unshift(featuredSkills);
   }
   return (
     <table className="mt-2 w-full border text-sm text-gray-900">
       <tbody className="divide-y text-left align-top">
-        <TableRowHeader>Profile</TableRowHeader>
-        <TableRow label="Name" value={resume.profile.name} />
-        <TableRow label="Email" value={resume.profile.email} />
-        <TableRow label="Phone" value={resume.profile.phone} />
-        <TableRow label="Location" value={resume.profile.location} />
-        <TableRow label="Link" value={resume.profile.url} />
-        <TableRow label="Summary" value={resume.profile.summary} />
-        <TableRowHeader>Education</TableRowHeader>
+        <TableRowHeader>个人资料</TableRowHeader>
+        <TableRow label="姓名" value={resume.profile.name} />
+        <TableRow label="电子邮件" value={resume.profile.email} />
+        <TableRow label="电话" value={resume.profile.phone} />
+        <TableRow label="位置" value={resume.profile.location} />
+        <TableRow label="链接" value={resume.profile.url} />
+        <TableRow label="摘要" value={resume.profile.summary} />
+        <TableRowHeader>教育经历</TableRowHeader>
         {educations.map((education, idx) => (
           <Fragment key={idx}>
-            <TableRow label="School" value={education.school} />
-            <TableRow label="Degree" value={education.degree} />
+            <TableRow label="学校" value={education.school} />
+            <TableRow label="学位" value={education.degree} />
             <TableRow label="GPA" value={education.gpa} />
-            <TableRow label="Date" value={education.date} />
+            <TableRow label="日期" value={education.date} />
             <TableRow
-              label="Descriptions"
+              label="描述"
               value={education.descriptions}
               className={
-                educations.length - 1 !== 0 &&
-                idx !== educations.length - 1 &&
+                educations.length - 1!== 0 &&
+                idx!== educations.length - 1 &&
                 "!border-b-4"
               }
             />
           </Fragment>
         ))}
-        <TableRowHeader>Work Experience</TableRowHeader>
+        <TableRowHeader>工作经历</TableRowHeader>
         {workExperiences.map((workExperience, idx) => (
           <Fragment key={idx}>
-            <TableRow label="Company" value={workExperience.company} />
-            <TableRow label="Job Title" value={workExperience.jobTitle} />
-            <TableRow label="Date" value={workExperience.date} />
+            <TableRow label="公司" value={workExperience.company} />
+            <TableRow label="职位" value={workExperience.jobTitle} />
+            <TableRow label="日期" value={workExperience.date} />
             <TableRow
-              label="Descriptions"
+              label="描述"
               value={workExperience.descriptions}
               className={
-                workExperiences.length - 1 !== 0 &&
-                idx !== workExperiences.length - 1 &&
+                workExperiences.length - 1!== 0 &&
+                idx!== workExperiences.length - 1 &&
                 "!border-b-4"
               }
             />
           </Fragment>
         ))}
         {resume.projects.length > 0 && (
-          <TableRowHeader>Projects</TableRowHeader>
+          <TableRowHeader>项目经历</TableRowHeader>
         )}
         {resume.projects.map((project, idx) => (
           <Fragment key={idx}>
-            <TableRow label="Project" value={project.project} />
-            <TableRow label="Date" value={project.date} />
+            <TableRow label="项目" value={project.project} />
+            <TableRow label="日期" value={project.date} />
             <TableRow
-              label="Descriptions"
+              label="描述"
               value={project.descriptions}
               className={
-                resume.projects.length - 1 !== 0 &&
-                idx !== resume.projects.length - 1 &&
+                resume.projects.length - 1!== 0 &&
+                idx!== resume.projects.length - 1 &&
                 "!border-b-4"
               }
             />
           </Fragment>
         ))}
-        <TableRowHeader>Skills</TableRowHeader>
-        <TableRow label="Descriptions" value={skills} />
+        <TableRowHeader>技能</TableRowHeader>
+        <TableRow label="描述" value={skills} />
       </tbody>
     </table>
   );

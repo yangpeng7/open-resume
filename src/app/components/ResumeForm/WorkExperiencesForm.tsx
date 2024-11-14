@@ -18,21 +18,21 @@ export const WorkExperiencesForm = () => {
   const showDelete = workExperiences.length > 1;
 
   return (
-    <Form form="workExperiences" addButtonText="Add Job">
+    <Form form="workExperiences" addButtonText="添加工作">
       {workExperiences.map(({ company, jobTitle, date, descriptions }, idx) => {
         const handleWorkExperienceChange = (
-          ...[
+         ...[
             field,
             value,
           ]: CreateHandleChangeArgsWithDescriptions<ResumeWorkExperience>
         ) => {
-          // TS doesn't support passing union type to single call signature
+          // TS 不支持将联合类型传递给单个调用签名
           // https://github.com/microsoft/TypeScript/issues/54027
-          // any is used here as a workaround
+          // 这里使用 any 作为变通方法
           dispatch(changeWorkExperiences({ idx, field, value } as any));
         };
-        const showMoveUp = idx !== 0;
-        const showMoveDown = idx !== workExperiences.length - 1;
+        const showMoveUp = idx!== 0;
+        const showMoveDown = idx!== workExperiences.length - 1;
 
         return (
           <FormSection
@@ -42,37 +42,37 @@ export const WorkExperiencesForm = () => {
             showMoveUp={showMoveUp}
             showMoveDown={showMoveDown}
             showDelete={showDelete}
-            deleteButtonTooltipText="Delete job"
+            deleteButtonTooltipText="删除工作"
           >
             <Input
-              label="Company"
+              label="公司"
               labelClassName="col-span-full"
               name="company"
-              placeholder="Khan Academy"
+              placeholder="可汗学院"
               value={company}
               onChange={handleWorkExperienceChange}
             />
             <Input
-              label="Job Title"
+              label="职位"
               labelClassName="col-span-4"
               name="jobTitle"
-              placeholder="Software Engineer"
+              placeholder="软件工程师"
               value={jobTitle}
               onChange={handleWorkExperienceChange}
             />
             <Input
-              label="Date"
+              label="日期"
               labelClassName="col-span-2"
               name="date"
-              placeholder="Jun 2022 - Present"
+              placeholder="2022 年 6 月 - 至今"
               value={date}
               onChange={handleWorkExperienceChange}
             />
             <BulletListTextarea
-              label="Description"
+              label="描述"
               labelClassName="col-span-full"
               name="descriptions"
-              placeholder="Bullet points"
+              placeholder="要点"
               value={descriptions}
               onChange={handleWorkExperienceChange}
             />

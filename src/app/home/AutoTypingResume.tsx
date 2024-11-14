@@ -9,11 +9,11 @@ import { makeObjectCharIterator } from "lib/make-object-char-iterator";
 import { useTailwindBreakpoints } from "lib/hooks/useTailwindBreakpoints";
 import { deepClone } from "lib/deep-clone";
 
-// countObjectChar(END_HOME_RESUME) -> ~1800 chars
-const INTERVAL_MS = 50; // 20 Intervals Per Second
+// 计算 END_HOME_RESUME 的字符数 -> 大约 1800 个字符
+const INTERVAL_MS = 50; // 每秒 20 个间隔
 const CHARS_PER_INTERVAL = 10;
-// Auto Typing Time:
-//  10 CHARS_PER_INTERVAL -> ~1800 / (20*10) = 9s (let's go with 9s so it feels fast)
+// 自动打字时间：
+//  10 CHARS_PER_INTERVAL -> ~1800 / (20*10) = 9s（我们选择 9s，这样感觉比较快）
 //  9 CHARS_PER_INTERVAL -> ~1800 / (20*9) = 10s
 //  8 CHARS_PER_INTERVAL -> ~1800 / (20*8) = 11s
 
@@ -36,8 +36,8 @@ export const AutoTypingResume = () => {
       if (!next.done) {
         setResume(next.value);
       } else {
-        // Sometimes the iterator doesn't end on the last char,
-        // so we manually set its end state here
+        // 有时迭代器不会在最后一个字符结束，
+        // 所以我们在这里手动设置它的结束状态
         if (!hasSetEndResume.current) {
           setResume(END_HOME_RESUME);
           hasSetEndResume.current = true;
@@ -60,19 +60,19 @@ export const AutoTypingResume = () => {
 
   return (
     <>
-      <ResumeIframeCSR documentSize="Letter" scale={isLg ? 0.7 : 0.5}>
+      <ResumeIframeCSR documentSize="Letter" scale={isLg? 0.7 : 0.5}>
         <ResumePDF
           resume={resume}
           settings={{
-            ...initialSettings,
+           ...initialSettings,
             fontSize: "12",
             formToHeading: {
               workExperiences: resume.workExperiences[0].company
-                ? "WORK EXPERIENCE"
+               ? "WORK EXPERIENCE"
                 : "",
-              educations: resume.educations[0].school ? "EDUCATION" : "",
-              projects: resume.projects[0].project ? "PROJECT" : "",
-              skills: resume.skills.featuredSkills[0].skill ? "SKILLS" : "",
+              educations: resume.educations[0].school? "EDUCATION吗" : "",
+              projects: resume.projects[0].project? "PROJECT" : "",
+              skills: resume.skills.featuredSkills[0].skill? "SKILLS" : "",
               custom: "CUSTOM SECTION",
             },
           }}

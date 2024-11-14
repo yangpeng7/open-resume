@@ -17,9 +17,9 @@ const RESUME_EXAMPLES = [
     fileUrl: "resume-example/laverne-resume.pdf",
     description: (
       <span>
-        Borrowed from University of La Verne Career Center -{" "}
+        从拉文大学职业中心借用 -{" "}
         <Link href="https://laverne.edu/careers/wp-content/uploads/sites/15/2010/12/Undergraduate-Student-Resume-Examples.pdf">
-          Link
+          链接
         </Link>
       </span>
     ),
@@ -28,8 +28,8 @@ const RESUME_EXAMPLES = [
     fileUrl: "resume-example/openresume-resume.pdf",
     description: (
       <span>
-        Created with OpenResume resume builder -{" "}
-        <Link href="/resume-builder">Link</Link>
+        使用 OpenResume 简历生成器创建 -{" "}
+        <Link href="/resume-builder">链接</Link>
       </span>
     ),
   },
@@ -65,13 +65,11 @@ export default function ResumeParser() {
         <div className="flex px-6 text-gray-900 md:col-span-3 md:h-[calc(100vh-var(--top-nav-bar-height))] md:overflow-y-scroll">
           <FlexboxSpacer maxWidth={45} className="hidden md:block" />
           <section className="max-w-[600px] grow">
-            <Heading className="text-primary !mt-4">
-              Resume Parser Playground
+            <Heading className="text-primary!mt-4">
+              简历解析器
             </Heading>
             <Paragraph smallMarginTop={true}>
-              This playground showcases the OpenResume resume parser and its
-              ability to parse information from a resume PDF. Click around the
-              PDF examples below to observe different parsing results.
+              展示了 OpenResume 简历解析器及其从简历 PDF 中解析信息的能力。点击下面的 PDF 示例，观察不同的解析结果。
             </Paragraph>
             <div className="mt-3 flex gap-3">
               {RESUME_EXAMPLES.map((example, idx) => (
@@ -80,7 +78,7 @@ export default function ResumeParser() {
                   className={cx(
                     "flex-1 cursor-pointer rounded-md border-2 px-4 py-3 shadow-sm outline-none hover:bg-gray-50 focus:bg-gray-50",
                     example.fileUrl === fileUrl
-                      ? "border-blue-400"
+                     ? "border-blue-400"
                       : "border-gray-300"
                   )}
                   onClick={() => setFileUrl(example.fileUrl)}
@@ -90,7 +88,7 @@ export default function ResumeParser() {
                   }}
                   tabIndex={0}
                 >
-                  <h1 className="font-semibold">Resume Example {idx + 1}</h1>
+                  <h1 className="font-semibold">简历示例 {idx + 1}</h1>
                   <p className="mt-2 text-sm text-gray-500">
                     {example.description}
                   </p>
@@ -98,13 +96,8 @@ export default function ResumeParser() {
               ))}
             </div>
             <Paragraph>
-              You can also{" "}
-              <span className="font-semibold">add your resume below</span> to
-              access how well your resume would be parsed by similar Application
-              Tracking Systems (ATS) used in job applications. The more
-              information it can parse out, the better it indicates the resume
-              is well formatted and easy to read. It is beneficial to have the
-              name and email accurately parsed at the very least.
+              您也可以{" "}
+              <span className="font-semibold">在下面添加您的简历</span>，以了解您的简历在类似的求职申请跟踪系统（ATS）中的解析效果。解析出的信息越多，表明简历格式良好且易于阅读。至少，姓名和电子邮件能够被准确解析是有益的。
             </Paragraph>
             <div className="mt-3">
               <ResumeDropzone
@@ -115,7 +108,7 @@ export default function ResumeParser() {
               />
             </div>
             <Heading level={2} className="!mt-[1.2em]">
-              Resume Parsing Results
+              简历解析结果
             </Heading>
             <ResumeTable resume={resume} />
             <ResumeParserAlgorithmArticle
